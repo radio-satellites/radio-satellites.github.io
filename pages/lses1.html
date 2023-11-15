@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href = "../ve3svf.css">
+  </head>
+  <body>
+    <div class="w3-bar w3-white">
+<a href="../main.html" class="w3-bar-item w3-button"><img src="../img/animated.gif" height=100></a>
+  <a href="https://www.qrz.com/db/VE3SVF" class="w3-bar-item w3-button"><img src="../img/qrz.gif" height=50></a>
+  <a href="https://ncase.me/trust/" class="w3-bar-item w3-button"><img src="../img/trust.gif" height=50></a>
+  <a href="../projects.html" class="w3-bar-item w3-button"><img src="../img/projects.gif" height=50></a>
+  <a href="../other.html" class="w3-bar-item w3-button"><img src="../img/other.gif" height=50></a>
+  <a href="../sorry.html" class="w3-bar-item w3-button"><img src="../img/sorry.gif" height=50></a>
+  <a href="https://artofproblemsolving.com/community/c1980041" class="w3-bar-item w3-button"><img src="../img/blag.gif" height=50></a>
+  <a href="../about.html" class="w3-bar-item w3-button"><img src="../img/about.gif" height=50></a>
+</div>
+  <center>
+    <h1 class="messy"><b>LAB-SES-1 mission log!!!</b></h1>
+    <h2 class="messy">PLEASE NOTE THAT WHEN A NEWER MISSION LOG IS AVAILABLE, THE OLD ONE IS CLEARED</h2>
+    <p>
+      
+
+2023-01-24:
+
+It's been a while! Not much progress unfortunately. For whatever reason there's a huge bug in the audio code so it isn't working as of now.
+
+Telemetry ideas!
+
+We send a beacon as CW for most of the time.
+
+Once each cycle we send a 'quick' telemetry, indicating the status of most components.
+
+Around cycle 270 (or something like that) we switch to telemetry only occasionally, to accomodate the fact that the main focus of the mission now shifted to recovery. I don't know if we'll need it, but if we do it'll be there. s
+
+The telemetry format will be ASK, with no CRC or anything complex like that. Simply:
+
+Field 1: (0/1) computer stats Field 2: (0/1) neopixel enabled? Field 3: audio enabled? Field 4: (multiple bits) cycle number
+
+Stay tuned!
+
+
+    </p>
+    <img src="../img/HAB_C44_P3.jpg">
+    <h6 class="messy">Prototype No. 3</h6>
+   </center>
+  </body>
+</html>
