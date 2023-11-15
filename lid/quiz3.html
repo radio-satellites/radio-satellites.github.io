@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href = "../ve3svf.css">
+    <script>
+function submitCall(){
+  window.location.replace("quiz1.html?call="+document.getElementById("callsign").value.toUpperCase());
+}
+</script>
+  </head>
+  <body>
+    <div class="w3-bar w3-white">
+    <a href="../main.html" class="w3-bar-item w3-button"><img src="../img/animated.gif" height=100></a>
+  <a href="https://www.qrz.com/db/VE3SVF" class="w3-bar-item w3-button"><img src="../img/qrz.gif" height=50></a>
+  <a href="https://ncase.me/trust/" class="w3-bar-item w3-button"><img src="../img/trust.gif" height=50></a>
+  <a href="../projects.html" class="w3-bar-item w3-button"><img src="../img/projects.gif" height=50></a>
+  <a href="../other.html" class="w3-bar-item w3-button"><img src="../img/other.gif" height=50></a>
+  <a href="../sorry.html" class="w3-bar-item w3-button"><img src="../img/sorry.gif" height=50></a>
+  <a href="https://artofproblemsolving.com/community/c1980041" class="w3-bar-item w3-button"><img src="../img/blag.gif" height=50></a>
+  <a href="../about.html" class="w3-bar-item w3-button"><img src="../img/about.gif" height=50></a>
+</div>
+  <center>
+    <img src="../img/mam_logo.png" width="150">
+    <img src='http://www.dx-code.com/images/dx-code_logo_sm.png'>
+    <h1 class="messy" id="congrats_text"><b></b></h1>
+    <h4>On completing your Amateur Radio Lid Certificate Examination!</h4>
+    <h4 id="score_text"></h4>
+    <h4 id="invite_text"></h4>
+    <h5>Here is the promised FM FT8:</h5>
+    <br>
+    <img src="../img/ft8fm.png">
+    <h5><b>AWESOME!!</b></h5>
+    
+
+
+  </center>
+  <script>
+        const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const callsign = urlParams.get('call').split(",")[0];
+      const numcorrect =parseInt(urlParams.get('call').split(",")[1].split("=")[1]);
+      const total =parseInt(urlParams.get('call').split(",")[2].split("=")[1]);
+      
+    document.getElementById("congrats_text").innerHTML = "CONGRATS "+callsign+"!!";
+    document.getElementById("score_text").innerHTML = "You achieved "+Math.round(((numcorrect/total))*100)+"%!";
+    const percentage = Math.round(((numcorrect/total))*100);
+    if(percentage >=50){
+      document.getElementById("invite_text").innerHTML = "With such excellency in lidding, you are invited to join our discord server at https://discord.gg/RvMWmHzkem ! <br> Also, you can email us at <b>VE3SVF@gmail.com</b> for a certificate sent to your mailing address! Screenshot this page as well when you send it to us :)";
+    }
+  </script>
+  </body>
+</html>

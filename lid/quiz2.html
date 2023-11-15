@@ -1,0 +1,207 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href = "../ve3svf.css">
+    <script>
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const callsign = urlParams.get('call');
+      function submitexam(){
+        window.location.replace("quiz2.html?call="+callsign);
+      }
+    </script>
+
+  </head>
+  <body>
+    <div class="w3-bar w3-white">
+    <a href="../main.html" class="w3-bar-item w3-button"><img src="../img/animated.gif" height=100></a>
+  <a href="https://www.qrz.com/db/VE3SVF" class="w3-bar-item w3-button"><img src="../img/qrz.gif" height=50></a>
+  <a href="https://ncase.me/trust/" class="w3-bar-item w3-button"><img src="../img/trust.gif" height=50></a>
+  <a href="../projects.html" class="w3-bar-item w3-button"><img src="../img/projects.gif" height=50></a>
+  <a href="../other.html" class="w3-bar-item w3-button"><img src="../img/other.gif" height=50></a>
+  <a href="../sorry.html" class="w3-bar-item w3-button"><img src="../img/sorry.gif" height=50></a>
+  <a href="https://artofproblemsolving.com/community/c1980041" class="w3-bar-item w3-button"><img src="../img/blag.gif" height=50></a>
+  <a href="../about.html" class="w3-bar-item w3-button"><img src="../img/about.gif" height=50></a>
+</div>
+<br>
+<br>
+<br>
+<div id="quiz"></div>
+<button id="submit">Submit!</button>
+<div id="results"></div>
+
+  </body>
+<script>
+  var questions = [
+	{
+		question: "When calling 'CQ DX' on a repeater, always: ",
+		answers: {
+			a: 'Respectfully wait for the other DX contact to finish',
+			b: 'Transmit on a repeater uplink frequency',
+			c: 'Respectfully make contact',
+			d: 'call and then listen for a reasonable interval of time'
+		},
+		correctAnswer: 'b'
+	},
+	{
+		question: "To begin a DX contact, always:",
+		answers: {
+			a: 'wait for the DX station to end a contact before I call',
+			b: 'send my full call sign',
+			c: 'interfere with the DX station or anyone calling by screaming "UP FIVE YOU LIDS" on the DX frequency'
+		},
+		correctAnswer: 'c'
+	},
+	{
+		question: "The premier DX LID organization is:",
+		answers: {
+			a: 'ARRL',
+			b: 'MaM (Meme Appreciation Month)',
+			c: 'me',
+			d: 'Any random OM on SSTV'
+		},
+		correctAnswer: 'b'
+	},
+	{
+		question: "If you want to make more DX contacts, you should:",
+		answers: {
+			a: 'listen before you call',
+			b: 'Fake your geographical area',
+			c: 'call me',
+			d: 'Call CQ'
+		},
+		correctAnswer: 'b'
+	},
+		{
+		question: "Say that you hear a CW call which is CQ EU CQ EU VE3KCN CQ EU, and you're located in the US. Should you answer?",
+		answers: {
+			a: 'Yes',
+			b: 'No',
+			c: 'Yes, but disable the keying filter to make sure that you interfere with nearby stations'
+		},
+		correctAnswer: 'c'
+	},
+			{
+		question: "Say that you hear a CW call which is very strong running 5w power. <br> You call back, and you're 233 on the other person's radio. You're running full legal-limit. What should you do?",
+		answers: {
+			a: 'Carefully check for issues in the RF chain',
+			b: 'Check the SWR of the antenna',
+			c: 'FORGET THE LEGAL LIMIT, ADD ANOTHER 20KW PA'
+		},
+		correctAnswer: 'c'
+	},
+	{
+		question: "The proper radio modulation to use for FT8 is:",
+		answers: {
+			a: 'FM',
+			b: 'SSB',
+			c: 'AM',
+			d: 'WBFM - feed it into your HT connected to a linked repeater network <br><br> If you want to see how this looks like, we tried it out, it is linked at the end :)'
+		},
+		correctAnswer: 'd'
+	},
+	{
+		question: "You hear someone attempt to call someone on their TX frequency, but they're operating split. What should you do?",
+		answers: {
+			a: 'Politely tell them over the air their working split',
+			b: 'Turn on your amplifier and scream "HE IS WORKING SPLIT, UP 5!!" into the void as loud as you can',
+			c: 'Politely let them know over non radio communications',
+			d: 'Ignore'
+		},
+		correctAnswer: 'b'
+	},
+		{
+		question: "The best way to announce to a pileup that you're on the frequency is",
+		answers: {
+			a: 'Find the exact DX frequency and slowly tune up your KW right on his frequency. Take your time doing this as it has maximum effect this way. The longer you take, the better. It lets others know that YOU are going to call the DX.',
+			b: 'Politely send your call',
+			c: 'Politely let them know over non radio communications',
+			d: 'Search for another pileup'
+		},
+		correctAnswer: 'a'
+	}
+];
+
+function showQuestions(questions, quizContainer){
+	// we'll need a place to store the output and the answer choices
+	var output = [];
+	var answers;
+
+	// for each question...
+	for(var i=0; i<questions.length; i++){
+		
+		// first reset the list of answers
+		answers = [];
+
+		// for each available answer to this question...
+		for(letter in questions[i].answers){
+
+			// ...add an html radio button
+			answers.push(
+				'<br><label>'
+					+ '<input type="radio" name="question'+i+'" value="'+letter+'">'
+					+ letter + ': '
+					+ questions[i].answers[letter]
+				+ '</label><br>'
+			);
+		}
+
+		// add this question and its answers to the output
+		output.push(
+			'<div class="question"> <b>' + questions[i].question + '</b></div>'
+			+ '<div class="answers">' + answers.join('') + '</div>'
+		);
+	}
+
+	// finally combine our output list into one string of html and put it on the page
+	quizContainer.innerHTML = output.join('');
+}
+
+showQuestions(questions, quiz);
+
+function showResults(questions, quizContainer, resultsContainer){
+	
+	// gather answer containers from our quiz
+	var answerContainers = quizContainer.querySelectorAll('.answers');
+	
+	// keep track of user's answers
+	var userAnswer = '';
+	var numCorrect = 0;
+	
+	// for each question...
+	for(var i=0; i<questions.length; i++){
+
+		// find selected answer
+		userAnswer = (answerContainers[i].querySelector('input[name=question'+i+']:checked')||{}).value;
+		
+		// if answer is correct
+		if(userAnswer===questions[i].correctAnswer){
+			// add to the number of correct answers
+			numCorrect++;
+			
+			// color the answers green
+			answerContainers[i].style.color = 'lightgreen';
+		}
+		// if answer is wrong or blank
+		else{
+			// color the answers red
+			answerContainers[i].style.color = 'red';
+		}
+	}
+
+	// show number of correct answers out of total
+	resultsContainer.innerHTML = numCorrect + ' out of ' + questions.length;
+	const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const callsign = urlParams.get('call');
+  setTimeout(function(){
+    window.location.replace("quiz3.html?call="+callsign+",numcorrect="+numCorrect+",total="+questions.length);
+}, 2000);
+  
+}
+
+submit.onclick = function(){
+	showResults(questions, quiz, results);
+}
+</script>
+</html>
