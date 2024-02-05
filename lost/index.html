@@ -4,8 +4,6 @@
 <title>UTS Lost and Found Listing</title>
 <link rel="icon" type="image/x-icon" href="./img/tree.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="./css/w3.css">
-<script type="text/javascript" src="load_tables.js"></script>
 <style>
 ul {
   list-style-type: none;
@@ -48,7 +46,7 @@ li a:hover:not(.active) {
   <h2>Recently Lost</h2>
   <p><i>Please contact the owner if found (and use the "Submit a Report" button to get the listing removed!)</i></p>
 
-  <table class="w3-table-all">
+  <table id="lostTable" class="w3-table-all">
     <thead>
       <tr class="w3-light-grey">
         <th>Item</th>
@@ -58,13 +56,6 @@ li a:hover:not(.active) {
 		<th>Name and Email</th>
       </tr>
     </thead>
-    <tr>
-      <td>Water Bottle</td>
-      <td>Tall, white</td>
-      <td>Gym</td>
-	  <td>Answers to exam :)</td>
-	  <td>Sasha T<br><i>timsa@utschools.ca</i></td>
-    </tr>
 
   </table>
 </div>
@@ -75,7 +66,7 @@ li a:hover:not(.active) {
   <h2>Recently Found</h2>
   <p><i>Please contact the finder if this is your item!</i></p>
 
-  <table class="w3-table-all">
+  <table id = "recentlyFoundTable" class="w3-table-all">
     <thead>
       <tr class="w3-light-grey">
         <th>Item</th>
@@ -85,13 +76,6 @@ li a:hover:not(.active) {
 		<th>Name and Email</th>
       </tr>
     </thead>
-    <tr>
-      <td>Water Bottle</td>
-      <td>Tall, white</td>
-      <td>Gym</td>
-	  <td>Answers to exam :)</td>
-	  <td>Sasha T<br><i>timsa@utschools.ca</i></td>
-    </tr>
 
   </table>
 </div>
@@ -101,6 +85,8 @@ li a:hover:not(.active) {
 <br>
 <p><i>   By using this website, you agree to the long and boring <a href="legal.html">Terms of Service and Privacy Policy</a></i></p>
 </body>
+<script type="text/javascript" src="load_tables.js"></script>
+<link rel="stylesheet" href="./css/w3.css">
 </html>
 
 
