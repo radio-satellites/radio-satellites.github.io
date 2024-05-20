@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<style>
+    table, td {
+      border: 1px solid black;
+    }
+</style>
+
+<body>
+    <h1>The Great F/D Oracle!</h1>
+    <br>
+    <div style="border: 1px solid black;">
+    <h4>Wall of Fame (<50% predictability)</h4>
+    <table>
+      <tr>
+        <th>No one yet!</th>
+      </tr>
+    </table>
+  </div>
+    <br>
+    <p>Yes, we can predict your "random" key presses using a simple algorithm (check below)</p>
+    <p><b>Press Fs and Ds</b>, and we'll predict whether or not your next "random" key press is an F or a D (lowercase only)!</p>
+    <button onclick="showAlgo()">Click to see algorithm (prepare to be embarrassed!)</button>
+    <br>
+    <p id="algo"></p>
+    <br>
+    <h2 id="percentage">Keep typing to see statistics</h2>
+    <input type="text" id = "input" placeholder="Type Here..." onkeypress="keyPress()">
+
+    <br>
+    <br>
+    <br>
+
+    <table id="myTable">
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+</body>
+
+<script src="predict.js"></script>
