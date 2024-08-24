@@ -11,7 +11,9 @@ function httpGet(theUrl)
 
 function loadTables(filter){
     let textbook_text = httpGet("https://raw.githubusercontent.com/radio-satellites/UTS_TEXT_TRACK/main/textbooks.txt").split(/\r?\n/);
-//console.log(textbook_text);
+    console.log("Hey there! You've peeked under the hood!")
+    console.log("Debug info:");
+console.log(textbook_text);
 
 textbook_text.splice(-1);
 textbook_text.shift();
