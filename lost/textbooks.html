@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>UTS Lost and Found Listing</title>
+<link rel="icon" type="image/x-icon" href="./img/shield.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv='cache-control' content='no-cache'>
+<meta http-equiv='expires' content='0'>
+<meta http-equiv='pragma' content='no-cache'>
+
+<style>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #00004d;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #000066;
+}
+
+</style>
+</head>
+<body>
+    <ul>
+        <li style="background-color: #6666ff"><a href="index.html">UTS Lost and Found Tracker</a></li>
+        <li style="background-color: #6f17e3"><a href="textbooks.html"><img src="./img/banana.gif" width=20> Textbooks</a></li>
+        <li><a href="about.html">About</a></li>
+        <li style="float:right; background-color:#0000cc"><a href="submit_report.html">Submit a report</a></li>
+        
+      </ul>
+
+<br>
+<br>
+<div class="w3-container">
+  <h2>Textbook Listings!</h2>
+  <p><i>Use the dropdown menu below to sort by grade</i></p>
+
+
+  
+    <div class="w3-dropdown-click">
+      <button class="w3-button w3-black" id = "grade" onclick="dropFunction()">Sort by grade...</button>
+      <div class="w3-dropdown-content w3-bar-block w3-card w3-light-grey" id="myDIV">
+        <button class="w3-bar-item w3-button" id = "f1" onclick="sortF1()">F1</button>
+        <button class="w3-bar-item w3-button" id = "f2" onclick="sortF2()">F2</button>
+        <button class="w3-bar-item w3-button" id = "m3" onclick="sortM3()">M3</button>
+        <button class="w3-bar-item w3-button" id = "m4" onclick="sortM4()">M4</button>
+        <button class="w3-bar-item w3-button" id = "s5" onclick="sortS5()">S5</button>
+        <button class="w3-bar-item w3-button" id = "s6" onclick="sortS6()">S6</button>
+      </div>
+    </div>
+    <br>
+    <br>
+
+  <table id="textbookTable" class="w3-table-all">
+    <thead>
+      <tr class="w3-light-grey">
+        <th>Textbook</th>
+        <th>Condition</th>
+        <th>Grade</th>
+		<th>Name and Email</th>
+      </tr>
+    </thead>
+
+  </table>
+</div>
+
+<br>
+
+<br>
+<br>
+<br>
+<p><i>   By using this website, you agree to the long and boring <a href="legal.html">Terms of Service and Privacy Policy</a></i></p>
+</body>
+<script type="text/javascript" src="load_textbooks.js"></script>
+<script>
+// Dropdown
+function dropFunction() {
+  var x = document.getElementById("myDIV");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+function sortF1(){
+    //console.log("Setting f1...");
+    var x = document.getElementById("grade");
+    x.innerText = "Grade: F1";
+
+    loadTables("F1");
+}
+function sortF2(){
+    var x = document.getElementById("grade");
+    x.innerText = "Grade: F2";
+    loadTables("F2");
+}
+function sortM3(){
+    var x = document.getElementById("grade");
+    x.innerText = "Grade: M3";
+    loadTables("M3");
+}
+function sortM4(){
+    var x = document.getElementById("grade");
+    x.innerText = "Grade: M4";
+    loadTables("M4");
+}
+function sortS5(){
+    var x = document.getElementById("grade");
+    x.innerText = "Grade: S5";
+    loadTables("S5");
+}
+function sortS6(){
+    var x = document.getElementById("grade");
+    x.innerText = "Grade: S6";
+    loadTables("S6");
+}
+
+</script>
+<link rel="stylesheet" href="./css/w3.css">
+</html>
+
+

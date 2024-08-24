@@ -27,7 +27,7 @@ for (let i = 0; i < lost_text.length; i++) {
   //console.log(cells);
 }
 
-//Now the other
+//Now the other lost and found table
 
 let found_text = httpGet("https://raw.githubusercontent.com/radio-satellites/UTS_LF_TRACKER_DATA/main/found.txt").split(/\r?\n/);
 //console.log(lost_text);
@@ -39,7 +39,7 @@ table = document.getElementById("recentlyFoundTable");
 
 for (let i = 0; i < lost_text.length; i++) {
   row = table.insertRow(1);
-  line = found_text[i];
+  let line = found_text[i];
   cells = line.split(",");
   for (let x = 0; x < cells.length; x++){
 	var cell = row.insertCell(x);
@@ -47,3 +47,4 @@ for (let i = 0; i < lost_text.length; i++) {
   }
   //console.log(cells);
 }
+
