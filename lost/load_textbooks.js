@@ -11,7 +11,7 @@ function httpGet(theUrl)
 
 function loadTables(filter){
     let textbook_text = httpGet("https://raw.githubusercontent.com/radio-satellites/UTS_TEXT_TRACK/main/textbooks.txt").split(/\r?\n/);
-console.log(textbook_text);
+//console.log(textbook_text);
 
 textbook_text.splice(-1);
 textbook_text.shift();
@@ -24,6 +24,14 @@ for (var i = tableHeaderRowCount; i < rowCount; i++) {
 }
 
 table = document.getElementById("textbookTable");
+
+if (textbook_text.length === 0){
+  //console.log("Zero!");
+  document.getElementById('notext').innerText = "No listings yet!";
+}
+else{
+  document.getElementById('notext').innerText = "";
+}
 
 for (let i = 0; i < textbook_text.length; i++) {
     line = textbook_text[i];
