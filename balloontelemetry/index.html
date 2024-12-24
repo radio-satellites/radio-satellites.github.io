@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receiving Horus 4FSK Telemetry from High-Altitude Balloons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2, h3 {
+            color: #2E8B57;
+        }
+        .content {
+            max-width: 800px;
+            margin: auto;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .steps {
+            margin-bottom: 40px;
+        }
+        .step {
+            margin-bottom: 20px;
+        }
+        .step img {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Receiving Horus 4FSK Telemetry from High-Altitude Balloons in Toronto</h1>
+        <p>Horus 4FSK is a standard telemetry protocol that we often use for balloon launches here in Toronto. Many people have emailed me asking how to contribute to receiving telemetry, so this is a quick guide on how to set up your station. We always appreciate help receiving telemetry: during the rather stressful period leading up to launch, telemetry is just another thing that can go wrong. Having other people help out greatly reduces the load onto the launch team!</p>
+        <img src="receive.png">
+        <div class="steps">
+            <h3>What you need:</h3>
+            <div class="step">
+                <p>To receive Horus 4FSK telemetry, you will need:</p>
+                <ul>
+                    <li>A suitable antenna (e.g. a Yagi or a discone) mounted on your vehicle or stationary setup.</li>
+                    <li>An SDR (like an RTL-SDR) or a SSB-capable radio. SSB radios can work, but are discouraged because of some launches using high-speed telemetry.</li>
+                    <li>A computer with the decoding software installed (horus-gui).</li>
+                </ul>
+            </div>
+
+            <h3>Set up your antenna and start your radio</h3>
+            <div class="step">
+                <p>This will vary from setup to setup, but mount your antenna in a location with a clear view of the sky. Ensure it is securely attached and properly oriented towards the balloon to maximize signal reception. If you're using an SSB radio, use whatever method is best to stream audio from the radio into your computer. Otherwise, if using an SDR, create a UDP stream to the application.</p>
+            </div>
+
+            <h3>Tune the radio signal</h3>
+            <div class="step">
+                <p>Launch horus-gui, which can be downloaded from <a href="https://github.com/projecthorus/horus-gui/releases/tag/v0.3.19">here</a>. Then, tune in to the radio signal from the balloon. It will look something like below:</p>
+            <img src="sdr.png">
+            <p>Ensure that you see four peaks in horus-gui. If the peaks don't have lines over them (or you only see three), adjust the tuning on your radio until you see four. </p>
+            </div>
+
+            <h3>Start receiving and uploading telemetry</h3>
+            <div class="step">
+                <p>At this point, horus-gui should look similar to what the image at the top looks like. You should also see messages in the log about uploading telemetry to SondeHub Amateur. You should also see your station name in the "uploaders" section. </p>
+            <img src="sondehub.png">
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
