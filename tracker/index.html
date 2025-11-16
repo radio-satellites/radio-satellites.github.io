@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UTSHAS Tracker</title>
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    header {
+      background-color: #003366;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    header img {
+      height: 50px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      gap: 1rem;
+    }
+
+    #map {
+      height: 500px;
+      border: 2px solid #003366;
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 0.75rem;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #003366;
+      color: white;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    caption {
+      caption-side: top;
+      padding: 0.5rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #003366;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="logo.png" alt="UTSHAS Logo">
+  <h1>UTSHAS Tracker</h1>
+</header>
+
+<main>
+  <h3 id = "tracking_txt"></h3>
+  <h4 style="color:red;">These requests are all sent to a central UTSHAS server which is slow, especially during a launch. Please be patient for updates!</h4>
+  <div id="map"></div>
+
+  <table id="telemetry-table">
+    <caption>Latest Telemetry</caption>
+    <thead>
+      <tr>
+        <th>Datetime (UTC)</th>
+        <th>Altitude (m)</th>
+        <th>Battery (V)</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td colspan="5">Loading telemetry...</td></tr>
+    </tbody>
+  </table>
+</main>
+
+<footer>
+  &copy; 2025 UTSHAS - University of Toronto Schools High Altitude Society
+</footer>
+
+<!-- Leaflet JS -->
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+></script>
+
+<script>
+  const NAME_DISPLAY = "UTS-1"; // Mission name to display
+  const CALLSIGN = "PC4L-4FSK"; // Preset callsign to interact with SondeHub. CHANGE THIS IN BETWEEN MISSIONS
+
+  // Set tracking text
+
+  const text_track = document.querySelector('#tracking_txt');
+  text_track.innerHTML = 'Tracking '+NAME_DISPLAY;
+
+  // Initialize map
+  const map = L.map('map').setView([43.6629, -79.3957], 9); // Default to Toronto area
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  let marker;
+  let trackLine; // Polyline for the flight path
+  // Global cached telemetry
+  let cachedTelemetry = [];
+
+  async function fetchTelemetry() {
+  const url = `https://api.v2.sondehub.org/amateur/telemetry/${CALLSIGN}?last=120&format=csv`;
+  try {
+    const res = await fetch(url, { headers: { 'accept': 'application/json' } });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const csvText = await res.text();
+
+    const lines = csvText.trim().split('\n');
+    if (lines.length < 2) return; // no new data
+
+    const headers = lines[0].split(',');
+
+    const getIndex = (name) => headers.indexOf(name);
+    const datetimeIndex = getIndex('datetime');
+    const altIndex = getIndex('alt');
+    const latIndex = getIndex('lat');
+    const lonIndex = getIndex('lon');
+    const battIndex = getIndex('batt');
+
+    // Parse latest line only
+    const cols = lines[lines.length - 1].split(',');
+    const safeFloat = (i) => (i === -1 || !cols[i]) ? null : parseFloat(cols[i]);
+    const latest = {
+      datetime: datetimeIndex !== -1 ? cols[datetimeIndex] || null : null,
+      alt: safeFloat(altIndex),
+      position: {
+        lat: safeFloat(latIndex),
+        lng: safeFloat(lonIndex)
+      },
+      batt: safeFloat(battIndex)
+    };
+
+    // Check if latest is already cached (avoid duplicates)
+    if (!cachedTelemetry.length || cachedTelemetry[cachedTelemetry.length - 1].datetime !== latest.datetime) {
+      cachedTelemetry.push(latest);
+      updateTable(cachedTelemetry);
+      updateMap(cachedTelemetry);
+    }
+
+  } catch (err) {
+    console.error('Error fetching telemetry:', err);
+  }
+}
+
+  // Update telemetry table
+  function updateTable(data) {
+    const tbody = document.querySelector('#telemetry-table tbody');
+    if (!data.length) {
+      tbody.innerHTML = `<tr><td colspan="5">No telemetry data available</td></tr>`;
+      return;
+    }
+
+    // Create table rows with latest first
+  tbody.innerHTML = [...data].reverse().map(d => `
+    <tr>
+      <td>${d.datetime || 'N/A'}</td>
+      <td>${d.alt !== null ? d.alt : 'N/A'}</td>
+      <td>${d.batt !== null ? d.batt.toFixed(2) : 'N/A'}</td>
+      <td>${d.position.lat !== null ? d.position.lat.toFixed(6) : 'N/A'}</td>
+      <td>${d.position.lng !== null ? d.position.lng.toFixed(6) : 'N/A'}</td>
+    </tr>
+  `).join('');
+  }
+function updateMap(data) {
+  // Filter out points without valid lat/lng
+  const validPoints = data
+    .filter(d => d.position.lat !== null && d.position.lng !== null)
+    .map(d => [d.position.lat, d.position.lng]);
+
+  if (!validPoints.length) return;
+
+  const latest = validPoints[validPoints.length - 1];
+
+  // Balloon icon
+  const balloonIcon = L.icon({
+    iconUrl: 'balloon.svg',
+    iconSize: [32, 64],
+    iconAnchor: [16, 64]
+  });
+
+  // Update or create marker
+  if (marker) {
+    marker.setLatLng(latest);
+  } else {
+    marker = L.marker(latest, { icon: balloonIcon }).addTo(map);
+  }
+
+  // Bind popup with latest telemetry info
+  const latestData = data.find(d => d.position.lat === latest[0] && d.position.lng === latest[1]);
+  if (latestData) {
+    marker.bindPopup(`
+      <b>${NAME_DISPLAY}</b><br>
+      Altitude: ${latestData.alt !== null ? latestData.alt + ' m' : 'N/A'}<br>
+      Battery: ${latestData.batt !== null ? latestData.batt.toFixed(2) + ' V' : 'N/A'}<br>
+      Datetime: ${latestData.datetime || 'N/A'}
+    `);
+  }
+
+  // Update or create polyline for track
+  if (trackLine) {
+    trackLine.setLatLngs(validPoints);
+  } else {
+    trackLine = L.polyline(validPoints, { color: 'red', weight: 3 }).addTo(map);
+  }
+}
+
+  // Fetch initially and refresh every 30 seconds
+  fetchTelemetry();
+  setInterval(fetchTelemetry, 30000);
+</script>
+
+</body>
+</html>
