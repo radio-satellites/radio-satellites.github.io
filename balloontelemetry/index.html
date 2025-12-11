@@ -43,26 +43,26 @@
                 <p>To receive Horus 4FSK telemetry, you will need:</p>
                 <ul>
                     <li>A suitable antenna (e.g. a Yagi or a discone) mounted on your vehicle or stationary setup.</li>
-                    <li>An SDR (like an RTL-SDR) or a SSB-capable radio. SSB radios can work, but are discouraged because of some launches using high-speed telemetry.</li>
+                    <li>An SDR (like an RTL-SDR) or a SSB-capable radio. SSB radios can work, but are discouraged because of some launches using high-speed telemetry (most SSB radios can barely cope with the bandwidth requirement for these).</li>
                     <li>A computer with the decoding software installed (horus-gui).</li>
                 </ul>
             </div>
 
             <h3>Set up your antenna and start your radio</h3>
             <div class="step">
-                <p>This will vary from setup to setup, but mount your antenna in a location with a clear view of the sky. Ensure it is securely attached and properly oriented towards the balloon to maximize signal reception. If you're using an SSB radio, use whatever method is best to stream audio from the radio into your computer. Otherwise, if using an SDR, create a UDP stream to the application.</p>
+                <p>This will vary from setup to setup, but mount your antenna in a location with a clear view of the sky. Ensure it is securely attached and properly oriented towards the balloon (or where you think the balloon is) to maximize signal reception. If you're using an SSB radio, use whatever method is best to stream audio from the radio into your computer. Otherwise, if using an SDR, create a UDP stream to the application.</p>
             </div>
 
             <h3>Tune the radio signal</h3>
             <div class="step">
                 <p>Launch horus-gui, which can be downloaded from <a href="https://github.com/projecthorus/horus-gui/releases/tag/v0.3.19">here</a>. Then, tune in to the radio signal from the balloon. It will look something like below:</p>
             <img src="sdr.png">
-            <p>Ensure that you see four peaks in horus-gui. If the peaks don't have lines over them (or you only see three), adjust the tuning on your radio until you see four. </p>
+            <p>At this point, you will need to have a way to route audio from your radio to your computer. If you're using an SDR, most SDR software has a UDP sink option to send data over UDP to horus-gui. You can also set up an audio loopback via Stereo Mix. Either way, you need to select your audio source at the top of horus-gui. Then, you need to set your FSK shift frequency: we typically announce this ahead of time (see "shift" in the launch announcement). Then, press start! Ensure that you see four peaks in horus-gui. If the peaks don't have lines over them (or you only see three), adjust the tuning on your radio until you see four - this means that you're tuned slightly over or under the correct frequency.</p>
             </div>
 
             <h3>Start receiving and uploading telemetry</h3>
             <div class="step">
-                <p>At this point, horus-gui should look similar to what the image at the top looks like. You should also see messages in the log about uploading telemetry to SondeHub Amateur. You should also see your station name in the "uploaders" section. </p>
+                <p>At this point, horus-gui should look similar to what the image at the top looks like. You should see messages in the log about uploading telemetry to SondeHub Amateur and your station name in the "uploaders" section. Thanks for helping out with a launch!</p>
             <img src="sondehub.png">
             </div>
 
